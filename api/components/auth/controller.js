@@ -1,9 +1,21 @@
+const authJWT = require("../../../auth");
 const TABLA = "auth";
 
 module.exports = function (injectedStore) {
   let store = injectedStore;
   if (!store) {
     store = require("../../../store/dummy");
+  }
+
+  async function login(username, password) {
+    const data = await store.query(TABLA, { username: username });
+    if (data.password === password) {
+      // Generar token;
+      // return "TOKEN";
+      return authJWT.sign(data);
+    } else {
+      throw new Error("Información invalida");
+    }
   }
 
   function upsertAuth(data) {
@@ -24,5 +36,6 @@ module.exports = function (injectedStore) {
 
   return {
     upsertAuth,
+    login,
   };
 };

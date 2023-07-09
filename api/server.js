@@ -7,8 +7,8 @@ const swaggerDocument = require("./swagger.json");
 const app = express();
 
 // bodyParser
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // router
 router(app);
