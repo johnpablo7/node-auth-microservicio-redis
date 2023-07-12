@@ -16,10 +16,14 @@ async function upsert(table, data) {
     db[table] = [];
   }
 
-  db[table].push(data);
+  let index = db[table].findIndex((record) => record.id === data.id);
+  if (index > -1) {
+    db[table][index] = { ...db[table][index], ...data };
+  } else {
+    index = db[table].push(data);
+  }
 
-  console.log(db);
-  // return data;
+  return db[table][index];
 }
 
 async function remove(table, id) {
